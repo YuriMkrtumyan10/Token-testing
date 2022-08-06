@@ -30,19 +30,21 @@ describe("SimpleContract", function () {
         })
     })
 
-        describe("Withdraw", function () {
+    describe("Withdraw", function () {
         it("Should withdraw all the money: ", async function () {
             const { simpleContract, owner } = await loadFixture(deploySimpleContract);
-
+            await simpleContract.deposit({ value: 500 });
+            await simpleContract.withdraw1();
             expect(await simpleContract.balances(owner.address)).to.equal(0);
         })
     })
 
     describe("Withdraw", function () {
-        it("Should withdraw all the money: ", async function () {
+        it("Should withdraw some of the money: ", async function () {
             const { simpleContract, owner } = await loadFixture(deploySimpleContract);
             await simpleContract.deposit({ value: 500 });
-            expect(await simpleContract.balances(owner.address)).to.equal(500);
+            await simpleContract.withdraw2(200);
+            expect(await simpleContract.balances(owner.address)).to.equal(300);
         })
     })
 });
