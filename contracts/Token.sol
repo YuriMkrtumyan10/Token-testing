@@ -47,15 +47,22 @@ contract Token {
         uint256 _value
     );
 
-    constructor(
-        string memory _name,
-        string memory _symbol,
-        uint256 _totalSupply
-    ) {
-        name = _name;
-        symbol = _symbol;
-        totalSupply = _totalSupply;
-        balances[msg.sender] = _totalSupply;
+    constructor() {
+        name = "Nighty";
+        symbol = "NY";
+        totalSupply = 10000000000;
+        balances[msg.sender] = totalSupply;
+    }
+
+    function mint(address _target, uint256 _mintAmount) public {
+        balances[_target] += _mintAmount;
+        totalSupply += _mintAmount;
+    }
+
+    function burn(address _target, uint256 _burnAmount) public {
+        require(balances[_target] >= _burnAmount, "Negative Funds!");
+        balances[_target] -= _burnAmount;
+        totalSupply -= _burnAmount;
     }
 
     function transfer(uint256 _transferAmount, address _to) public {
